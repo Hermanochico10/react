@@ -1,31 +1,120 @@
-# 🧪 Exercícios da Aula 2 — React: Estado, Eventos e Estilização com styled-components
+# 🧪 Gabarito Completo — Projeto React com Vite e styled-components
 
 ---
 
-## ✅ Exercício 1 — Formulário Controlado com Validação
+## ⚙️ Criação do Projeto
 
-### Objetivo
+### Pré-requisitos
 
-Criar um componente `FormularioContato` com os campos: nome, idade e profissão.  
-Todos os inputs devem ser controlados com `useState`.  
-Ao submeter, mostrar um `alert` com os dados formatados.  
-Implementar validação para garantir que todos os campos estejam preenchidos.
+- Node.js instalado
+
+### Criar projeto com Vite
+
+```bash
+npm create vite@latest meu-projeto -- --template react
+cd meu-projeto
+npm install
+```
+
+### Instalar styled-components
+
+```bash
+npm install styled-components
+```
 
 ---
 
-### 📁 Estrutura de Arquivos
+## 🗂️ Estrutura do Projeto
 
 ```
 src/
-└── components/
-    └── FormularioContato/
-        ├── index.jsx
-        └── styles.js
+├── components/
+│   ├── Card/
+│   │   ├── index.jsx
+│   │   └── styles.js
+│   ├── CardGrid/
+│   │   ├── index.jsx
+│   │   └── styles.js
+│   └── FormularioContato/
+│       ├── index.jsx
+│       └── styles.js
+├── styles/
+│   ├── GlobalStyle.js
+│   └── theme.js       (se desejar implementar tema depois)
+├── App.jsx
+└── main.jsx
 ```
 
 ---
 
-### 📄 Arquivo: `src/components/FormularioContato/index.jsx`
+## 📄 Arquivo: `src/main.jsx`
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
+
+---
+
+## 📄 Arquivo: `src/App.jsx`
+
+```jsx
+import { FormularioContato } from './components/FormularioContato';
+import { CardGrid } from './components/CardGrid';
+import { GlobalStyle } from './styles/GlobalStyle';
+
+function App() {
+  return (
+    <>
+      <GlobalStyle />
+      <h1 style={{ textAlign: 'center' }}>Exercícios da Aula 2</h1>
+      <FormularioContato />
+      <CardGrid />
+    </>
+  );
+}
+
+export default App;
+```
+
+---
+
+## 📄 Arquivo: `src/styles/GlobalStyle.js`
+
+```jsx
+import { createGlobalStyle } from 'styled-components';
+
+export const GlobalStyle = createGlobalStyle`
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+
+  h1 {
+    margin: 40px 0 20px;
+  }
+`;
+```
+
+---
+
+## ✅ Exercício 1 — Formulário Controlado
+
+### 📄 `src/components/FormularioContato/index.jsx`
 
 ```jsx
 import { useState } from 'react';
@@ -76,9 +165,7 @@ export function FormularioContato() {
 }
 ```
 
----
-
-### 📄 Arquivo: `src/components/FormularioContato/styles.js`
+### 📄 `src/components/FormularioContato/styles.js`
 
 ```jsx
 import styled from 'styled-components';
@@ -88,7 +175,7 @@ export const Formulario = styled.form`
   flex-direction: column;
   gap: 12px;
   max-width: 300px;
-  margin: 0 auto;
+  margin: 0 auto 40px;
 `;
 
 export const Input = styled.input`
@@ -116,34 +203,7 @@ export const Erro = styled.span`
 
 ## ✅ Exercício 2 — Grid de Cards Responsivos
 
-### Objetivo
-
-Criar um array com objetos representando pessoas (nome e profissão).  
-Criar componente `Card` estilizado com `styled-components`.  
-Exibir os cards em grid usando `display: grid`.  
-Responsivo para:
-- 1 coluna (mobile)
-- 2 colunas (tablet)
-- 4 colunas (desktop)
-
----
-
-### 📁 Estrutura de Arquivos
-
-```
-src/
-└── components/
-    ├── Card/
-    │   ├── index.jsx
-    │   └── styles.js
-    └── CardGrid/
-        ├── index.jsx
-        └── styles.js
-```
-
----
-
-### 📄 Arquivo: `src/components/Card/index.jsx`
+### 📄 `src/components/Card/index.jsx`
 
 ```jsx
 import { CardContainer, Titulo, Descricao, Botao } from './styles';
@@ -159,9 +219,7 @@ export function Card({ nome, profissao }) {
 }
 ```
 
----
-
-### 📄 Arquivo: `src/components/Card/styles.js`
+### 📄 `src/components/Card/styles.js`
 
 ```jsx
 import styled from 'styled-components';
@@ -199,7 +257,7 @@ export const Botao = styled.button`
 
 ---
 
-### 📄 Arquivo: `src/components/CardGrid/index.jsx`
+### 📄 `src/components/CardGrid/index.jsx`
 
 ```jsx
 import { Grid } from './styles';
@@ -225,9 +283,7 @@ export function CardGrid() {
 }
 ```
 
----
-
-### 📄 Arquivo: `src/components/CardGrid/styles.js`
+### 📄 `src/components/CardGrid/styles.js`
 
 ```jsx
 import styled from 'styled-components';
@@ -242,8 +298,9 @@ export const Grid = styled.div`
 
 ---
 
-## 📦 Dependência necessária
+## ✅ Resultado Esperado
 
-```bash
-npm install styled-components
-```
+- Um formulário funcional com validação local e feedback.
+- Um grid de cards estilizados, totalmente responsivo.
+- Projeto React moderno usando Vite e styled-components.
+- Arquitetura de pastas organizada para escalar.
