@@ -1,89 +1,115 @@
-# 🧪 Exercícios da Aula 2 — React: Estado, Eventos e Estilização Responsiva
+# 🧪 Exercícios da Aula 2 — React: Estado, Eventos e Estilização com styled-components
 
 ---
 
-## ✅ Exercício 1 — Formulário Controlado
+## ✅ Exercício 1 — Formulário Controlado com Validação
 
 ### Objetivo
 
-Criar um componente que use `useState` para controlar três campos: nome, idade e profissão. Ao submeter, deve exibir os dados via `alert`.
+Criar um componente `FormularioContato` com os campos: nome, idade e profissão.  
+Todos os inputs devem ser controlados com `useState`.  
+Ao submeter, mostrar um `alert` com os dados formatados.  
+Implementar validação para garantir que todos os campos estejam preenchidos.
 
-### 📁 Arquivo: `src/components/FormularioContato/FormularioContato.jsx`
+---
+
+### 📁 Estrutura de Arquivos
+
+```
+src/
+└── components/
+    └── FormularioContato/
+        ├── index.jsx
+        └── styles.js
+```
+
+---
+
+### 📄 Arquivo: `src/components/FormularioContato/index.jsx`
 
 ```jsx
-import React, { useState } from 'react';
-import './FormularioContato.css';
+import { useState } from 'react';
+import { Formulario, Input, Botao, Erro } from './styles';
 
-function FormularioContato() {
+export function FormularioContato() {
   const [nome, setNome] = useState('');
   const [idade, setIdade] = useState('');
   const [profissao, setProfissao] = useState('');
+  const [erro, setErro] = useState('');
 
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!nome || !idade || !profissao) {
+      setErro('Por favor, preencha todos os campos.');
+      return;
+    }
+
+    setErro('');
     alert(`Nome: ${nome}\nIdade: ${idade}\nProfissão: ${profissao}`);
-  }
+  };
 
   return (
-    <form className="formulario" onSubmit={handleSubmit}>
-      <input 
-        type="text" 
-        placeholder="Nome" 
-        value={nome} 
-        onChange={(e) => setNome(e.target.value)} 
-        required
+    <Formulario onSubmit={handleSubmit}>
+      <Input
+        type="text"
+        placeholder="Nome"
+        value={nome}
+        onChange={(e) => setNome(e.target.value)}
       />
-      <input 
-        type="number" 
-        placeholder="Idade" 
-        value={idade} 
-        onChange={(e) => setIdade(e.target.value)} 
-        required
+      <Input
+        type="number"
+        placeholder="Idade"
+        value={idade}
+        onChange={(e) => setIdade(e.target.value)}
       />
-      <input 
-        type="text" 
-        placeholder="Profissão" 
-        value={profissao} 
-        onChange={(e) => setProfissao(e.target.value)} 
-        required
+      <Input
+        type="text"
+        placeholder="Profissão"
+        value={profissao}
+        onChange={(e) => setProfissao(e.target.value)}
       />
-      <button type="submit">Enviar</button>
-    </form>
+      {erro && <Erro>{erro}</Erro>}
+      <Botao type="submit">Enviar</Botao>
+    </Formulario>
   );
 }
-
-export default FormularioContato;
 ```
 
-### 📁 Arquivo: `src/components/FormularioContato/FormularioContato.css`
+---
 
-```css
-.formulario {
+### 📄 Arquivo: `src/components/FormularioContato/styles.js`
+
+```jsx
+import styled from 'styled-components';
+
+export const Formulario = styled.form`
   display: flex;
   flex-direction: column;
   gap: 12px;
   max-width: 300px;
   margin: 0 auto;
-}
+`;
 
-.formulario input {
+export const Input = styled.input`
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-}
+`;
 
-.formulario button {
+export const Botao = styled.button`
   padding: 8px;
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-}
+`;
 
-.formulario button:hover {
-  background-color: #0056b3;
-}
+export const Erro = styled.span`
+  color: red;
+  font-size: 12px;
+`;
 ```
 
 ---
@@ -92,15 +118,94 @@ export default FormularioContato;
 
 ### Objetivo
 
-Exibir uma lista de cards em uma grade (`Grid`), com responsividade para mobile, tablet e desktop.
+Criar um array com objetos representando pessoas (nome e profissão).  
+Criar componente `Card` estilizado com `styled-components`.  
+Exibir os cards em grid usando `display: grid`.  
+Responsivo para:
+- 1 coluna (mobile)
+- 2 colunas (tablet)
+- 4 colunas (desktop)
 
-### 📁 Arquivo: `src/components/CardGrid/CardGrid.jsx`
+---
+
+### 📁 Estrutura de Arquivos
+
+```
+src/
+└── components/
+    ├── Card/
+    │   ├── index.jsx
+    │   └── styles.js
+    └── CardGrid/
+        ├── index.jsx
+        └── styles.js
+```
+
+---
+
+### 📄 Arquivo: `src/components/Card/index.jsx`
 
 ```jsx
-import React from 'react';
-import './CardGrid.css';
+import { CardContainer, Titulo, Descricao, Botao } from './styles';
 
-const cards = [
+export function Card({ nome, profissao }) {
+  return (
+    <CardContainer>
+      <Titulo>{nome}</Titulo>
+      <Descricao>{profissao}</Descricao>
+      <Botao>Curtir</Botao>
+    </CardContainer>
+  );
+}
+```
+
+---
+
+### 📄 Arquivo: `src/components/Card/styles.js`
+
+```jsx
+import styled from 'styled-components';
+
+export const CardContainer = styled.div`
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+  text-align: center;
+`;
+
+export const Titulo = styled.h3`
+  margin: 0 0 8px 0;
+`;
+
+export const Descricao = styled.p`
+  margin: 0;
+`;
+
+export const Botao = styled.button`
+  margin-top: 10px;
+  padding: 6px 12px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #218838;
+  }
+`;
+```
+
+---
+
+### 📄 Arquivo: `src/components/CardGrid/index.jsx`
+
+```jsx
+import { Grid } from './styles';
+import { Card } from '../Card';
+
+const pessoas = [
   { nome: 'Ana', profissao: 'Designer' },
   { nome: 'Bruno', profissao: 'Dev Front-end' },
   { nome: 'Carlos', profissao: 'Dev Back-end' },
@@ -109,116 +214,36 @@ const cards = [
   { nome: 'Fernanda', profissao: 'UX Researcher' }
 ];
 
-function CardGrid() {
+export function CardGrid() {
   return (
-    <div className="grid">
-      {cards.map((card, index) => (
-        <div key={index} className="card">
-          <h3>{card.nome}</h3>
-          <p>{card.profissao}</p>
-          <button>Curtir</button>
-        </div>
+    <Grid>
+      {pessoas.map((pessoa, index) => (
+        <Card key={index} nome={pessoa.nome} profissao={pessoa.profissao} />
       ))}
-    </div>
+    </Grid>
   );
-}
-
-export default CardGrid;
-```
-
-### 📁 Arquivo: `src/components/CardGrid/CardGrid.css`
-
-```css
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
-
-.card {
-  background: white;
-  padding: 16px;
-  border-radius: 8px;
-  box-shadow: 0 0 6px rgba(0,0,0,0.1);
-  text-align: center;
-}
-
-.card button {
-  margin-top: 10px;
-  padding: 6px 12px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.card button:hover {
-  background-color: #218838;
 }
 ```
 
 ---
 
-## ✅ Exercício 3 — Tema Dinâmico com useState
-
-### Objetivo
-
-Alternar entre tema claro e escuro com um botão, aplicando classes CSS dinamicamente com base no estado.
-
-### 📁 Arquivo: `src/components/Tema/Tema.jsx`
+### 📄 Arquivo: `src/components/CardGrid/styles.js`
 
 ```jsx
-import React, { useState } from 'react';
-import './Tema.css';
+import styled from 'styled-components';
 
-function Tema() {
-  const [modoEscuro, setModoEscuro] = useState(false);
-
-  return (
-    <div className={modoEscuro ? 'tema escuro' : 'tema claro'}>
-      <p>Tema atual: {modoEscuro ? 'Escuro' : 'Claro'}</p>
-      <button onClick={() => setModoEscuro(!modoEscuro)}>
-        Alternar Tema
-      </button>
-    </div>
-  );
-}
-
-export default Tema;
+export const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+`;
 ```
 
-### 📁 Arquivo: `src/components/Tema/Tema.css`
+---
 
-```css
-.tema {
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-}
+## 📦 Dependência necessária
 
-.tema.claro {
-  background-color: #f9f9f9;
-  color: #222;
-}
-
-.tema.escuro {
-  background-color: #222;
-  color: #f9f9f9;
-}
-
-.tema button {
-  margin-top: 10px;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  background-color: #007bff;
-  color: white;
-}
-
-.tema button:hover {
-  background-color: #0056b3;
-}
+```bash
+npm install styled-components
 ```
