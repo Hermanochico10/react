@@ -80,6 +80,7 @@ Antes dos Hooks, apenas componentes de classe podiam ter estado. Com `useState`,
 - Permite escrever CSS dentro do JavaScript, promovendo maior coesão entre estilo e lógica.
 - Evita conflitos de nomes de classes, pois os estilos são escopados ao componente.
 - Facilita a criação de temas dinâmicos e reutilização de estilos.
+- Instalar a extensão vs-code-styled-components
 
 ---
 
