@@ -304,7 +304,6 @@ export const temaEscuro = {
 ```jsx
 import styled from 'styled-components'
 
-// Estilos definidos diretamente no mesmo arquivo
 const CardContainer = styled.div`
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -332,27 +331,40 @@ export function Card({ titulo, descricao }) {
 
 ---
 
-### 📌 Observação Didática
+## 📄 Arquivo: `src/App.jsx`
 
-> Neste componente, usamos `styled-components` diretamente no mesmo arquivo do componente.  
-> Essa abordagem é válida especialmente quando os estilos são simples e exclusivos.  
-> Para estilos mais reutilizáveis, manter um `styles.js` é mais organizado.
+```jsx
+import { GlobalStyle } from './styles/GlobalStyle'
+import { FormularioContato } from './components/FormularioContato'
+import { Card } from './components/Card'
+import { AlternarTema } from './components/AlternarTema'
+
+export default function App() {
+  return (
+    <>
+      <GlobalStyle />
+      <h1 style={{ textAlign: 'center' }}>Exemplos Aula 2</h1>
+      <FormularioContato />
+      <AlternarTema />
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '40px' }}>
+        <Card titulo="Fulano" descricao="Desenvolvedor Front-end" />
+      </div>
+    </>
+  )
+}
+```
 
 ---
 
-## 🧪 Exercícios Propostos
+## 📄 Arquivo: `src/main.jsx`
 
-### Exercício 1 — Formulário Completo
+```jsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App'
 
-- Criar um componente `FormularioContato`.
-- Campos: nome, idade, profissão.
-- Todos os inputs devem ser controlados com `useState`.
-- Ao submeter, mostrar um `alert` com os dados formatados.
-- Implementar validação para garantir que todos os campos estejam preenchidos.
-
-### Exercício 2 — Grid de Cards Responsivos
-
-- Criar um array com objetos representando pessoas (nome e profissão).
-- Criar componente `Card` estilizado com styled-components.
-- Exibir os cards em grid usando `display: grid`.
-- Responsivo para 1 coluna (mobile), 2 colunas (tablet), 4 colunas (desktop).
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+)
